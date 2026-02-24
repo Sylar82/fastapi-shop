@@ -1,34 +1,32 @@
-from asyncio.unix_events import FastChildWatcher
 from datetime import datetime
-from enum import unique
-from operator import index
-from tkinter.constants import TRUE
 
 from sqlalchemy import (
-    Column,
     DateTime,
     Float,
     ForeignKey,
     Integer,
     String,
+)
+from sqlalchemy.orm import (
+    Mapped,
+    mapped_column,
     relationship,
 )
-from typing_extensions import Text
 
 from ..database import Base
 
 
-class Category(Base):
-    __tablename__ = "product"
+class Product(Base):
+    __tablename__ = "products"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False, index=True)
-    description = Column(Text)
-    price = Column(Float, nullable=False)
-    category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
-    image_url = Column(String)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    name: Mapped[str] = mapped_column(String, nullable=False, index=True)
+    description: Mapped[str | None] = mapped_column(String, nullable=True)
+    price: Mapped[float] = mapped_column(Float, nullable=False)
+    image_url: Mapped[str | None] = mapped_column(String, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
+    category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"))
     category = relationship("Category", back_populates="products")
 
     def __repr__(self):

@@ -1,4 +1,4 @@
-from .category import Category
-from .product import Product
+# from schemas.category import Category
+# from schemas.product import Product
 
-__all__ = ["Category", "Product"]
+# __all__ = ["Category", "Product"]

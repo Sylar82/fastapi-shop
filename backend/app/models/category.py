@@ -1,8 +1,5 @@
-from asyncio.unix_events import FastChildWatcher
-from enum import unique
-from tkinter.constants import TRUE
-
-from sqlalchemy import Column, Integer, String, relationship
+from sqlalchemy import Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ..database import Base
 
@@ -10,9 +7,9 @@ from ..database import Base
 class Category(Base):
     __tablename__ = "categories"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, unique=True, nullable=False, index=True)
-    slug = Column(String, unique=True, nullable=False, index=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    name: Mapped[str] = mapped_column(String, unique=True, nullable=False, index=True)
+    slug: Mapped[str] = mapped_column(String, unique=True, nullable=False, index=True)
 
     products = relationship("Product", back_populates="category")
 

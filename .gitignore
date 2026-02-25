@@ -8,6 +8,7 @@ __pycache__/
 *.pyo
 *.pyd
 *.so
+pyrightconfig.json
 
 # Build artifacts
 dist/
@@ -82,6 +83,9 @@ pnpm-debug.log*
 
 # VSCode
 .vscode/
+
+# Zed
+.zed/
 
 # JetBrains
 .idea/

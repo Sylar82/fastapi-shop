@@ -44,7 +44,7 @@ class CartService:
 
         product_ids = list(cart_data.keys())
         products = self.product_repository.get_multiple_by_ids(product_ids)
-        products_dict = {product.id: product for products in products}
+        products_dict = {product.id: product for product in products}
 
         cart_items = []
         total_price = 0.0
@@ -66,7 +66,19 @@ class CartService:
 
                 cart_items.append(cart_item)
                 total_price += subtotal
+        total_items = sum(item.quantity for item in cart_items)
 
         return CartResponse(
             items=cart_items, total=round(total_price), items_count=total_items
         )
+
+    def update_cart_item(
+        self, cart_data: Dict[int, int], item: CartItemUpdate
+    ) -> Dict[int, int]:
+        if item.product_id not in cart_data:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Product with id {item.product_id} not found in cart",
+            )
+        cart_data[item.product_id] = item.quantity
+        return cart_data
